@@ -16,4 +16,4 @@ A responsive and accessible image slider built with HTML, CSS, and Vanilla JavaS
 - Vanilla JavaScript
 
 ## Demo
-([Netlify-Live-Demo](https://zesty-paprenjak-555298.netlify.app/))
+([Image Slider Live Demo](https://zesty-paprenjak-555298.netlify.app/))
