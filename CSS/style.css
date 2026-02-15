@@ -1,0 +1,210 @@
+/* ======================================================
+   =============== 1️⃣ Global Reset =====================
+   ====================================================== */
+
+/* 
+   border-box يجعل التحكم في الأحجام أسهل
+   يمنع مشاكل overflow الناتجة عن padding
+*/
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+
+/* ======================================================
+   =============== 2️⃣ Layout Structure =================
+   ====================================================== */
+
+.container {
+    margin: 20px auto;
+    position: relative;
+    /* مرجع للعناصر المطلقة داخله */
+    background-color: #000;
+}
+
+.images {
+    position: relative;
+    width: 500px;
+    height: 600px;
+    margin: 20px auto;
+    overflow: hidden;
+    /* يخفي الصور خارج الإطار */
+}
+
+@media (max-width:500px) {
+    .images {
+        width: 250px;
+        height: 300px;
+    }
+}
+
+/* ======================================================
+   =============== 3️⃣ Slides System ====================
+   ====================================================== */
+
+/*
+   جميع الصور مكدسة فوق بعضها
+   التحريك يتم عبر transform وليس left/right
+   لأن transform أسرع أداءً (GPU accelerated)
+*/
+.images img {
+    position: absolute;
+    inset: 0;
+    /* اختصار top:0; left:0; right:0; bottom:0 */
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* يمنع تشويه الصورة */
+    transform: translateX(100%);
+    transition: transform 0.4s ease;
+}
+
+/* الصورة النشطة */
+.images img.active {
+    transform: translateX(0);
+}
+
+/* الصورة السابقة (عند الرجوع) */
+.images img.back {
+    transform: translateX(-100%);
+}
+
+
+/* ======================================================
+   =============== 4️⃣ Navigation Buttons ===============
+   ====================================================== */
+
+.buttons {
+    position: absolute;
+    inset: 50% 0 auto 0;
+    /* top:50% + full width */
+    transform: translateY(-50%);
+    display: flex;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+/*
+   دمجنا .next و .previous لتجنب التكرار
+*/
+.next,
+.previous {
+    border: none;
+    cursor: pointer;
+    padding: 8px 10px;
+    font-size: 9px;
+    border-radius: 50%;
+    background-color: #fff;
+    color: #000;
+    font-weight: bold;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+/* تحسين الـ accessibility بدل outline:none */
+.next:focus-visible,
+.previous:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+.next:hover,
+.previous:hover {
+    opacity: 1;
+}
+
+/* إخفاء الزر عند النهاية */
+.next.done,
+.previous.done {
+    visibility: hidden;
+}
+
+@media (max-width:500px) {
+
+    .next,
+    .previous {
+        font-size: 6px;
+        padding: 5px 7px;
+    }
+}
+
+/* ======================================================
+   =============== 5️⃣ Bullets Navigation ===============
+   ====================================================== */
+
+.bulltse {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 2;
+}
+
+.bulltse ul {
+    list-style: none;
+    display: flex;
+    gap: 10px;
+}
+
+/* 
+   جعل الحجم ثابت بدلاً من padding
+   يعطي تحكم أدق في الشكل الدائري
+*/
+.bulltse ul li {
+    width: 12px;
+    height: 12px;
+    background-color: #aaa;
+    border-radius: 50%;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease, background-color 0.2s ease;
+}
+
+.bulltse ul li:hover {
+    opacity: 1;
+}
+
+/* الحالة النشطة */
+.bulltse ul li.active {
+    background-color: #fff;
+    opacity: 1;
+}
+
+@media (max-width:500px) {
+    .bulltse ul li {
+        width: 9px;
+        height: 9px;
+    }
+}
+
+/* ======================================================
+   =============== 6️⃣ Image Counter ====================
+   ====================================================== */
+
+.img-counter {
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    z-index: 2;
+
+    background: rgba(0, 0, 0, 0.5);
+    color: #fff;
+
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 10px;
+}
+
+@media (max-width:500px) {
+    .img-counter {
+        font-size: 10px;
+    }
+}
